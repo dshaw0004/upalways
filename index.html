@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stay-Awake</title>
+    <style>
+        /* Add your custom styles here */
+        h1 {
+            font-size: 36px;
+            font-weight: bold;
+        }
+        input, select, button {
+            font-size: 20px;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Stay-Awake</h1>
+    <form id="myForm">
+        <label for="url">URL:</label>
+        <input type="text" id="url" name="url"><br><br>
+        <label for="server-type">Server Type:</label>
+        <select name="server-type" id="server-type">
+            <option value="http">HTTP</option>
+            <option value="https">HTTPS</option>
+        </select><br><br>
+        <button type="submit">Submit</button>
+    </form> 
+    <script>
+        document.getElementById('myForm').addEventListener('submit', (event) => {
+            event.preventDefault();
+            const url = document.getElementById('url').value;
+            const serverType = document.getElementById('server-type').value;
+            fetch('/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ url, serverType })
+            }).then(response => response.text())
+              .then(data => console.log(data));
+        });
+    </script>
+</body>
+</html>
