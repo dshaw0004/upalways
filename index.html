@@ -38,7 +38,9 @@
                 },
                 body: JSON.stringify({ url, serverType })
             }).then(response => response.text())
-              .then(data => alert("your url has been added");
+              .then(data =>{ 
+                console.log(data)
+                alert(data)})
         });
     </script>
 </body>
