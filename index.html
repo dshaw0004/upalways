@@ -5,18 +5,33 @@
     <style>
         /* Add your custom styles here */
         h1 {
-            font-size: 36px;
+            font-size: 2rem;
             font-weight: bold;
         }
         input, select, button {
             font-size: 20px;
             padding: 10px;
         }
+      p{
+        font-size: 1rem;
+      }
+        .note{
+          background-color: yellow;
+          padding: 1ch 2ch;
+          font-size: 1rem;
+          width: 96%;
+          margin:1em auto;
+        }
     </style>
 </head>
 <body>
     <h1>UpAlways</h1>
+  <p><cite>UpAlways</cite> is a replicate of the <strong>uptimerobot</strong>. It is totally free to use. Currently it can only make <b>http</b> and <b>https</b> request. Still it is a great alternative of <strong>uptimerobot</strong> for making your <strong>Replit's</strong> api, telegram bot or discord bot always on.<br/>
+    <a href="https://github.com/dshaw0004/upalways" target="_blank">Contact me</a> to help me for adding new features to this site.
+  </p>
+  <p class="note"><b>Note :</b> By default <cite>UpAlways</cite> will make http(s) request to your api or bot in every 1 minute.</p>
     <form id="myForm">
+      <h2>Add your site </h2>
         <label for="url">URL:</label>
         <input type="text" id="url" name="url"><br><br>
         <label for="server-type">Server Type:</label>
@@ -26,6 +41,9 @@
         </select><br><br>
         <button type="submit">Submit</button>
     </form> 
+  <div >
+    <p>I thinking about implementing a log in system which does not require any email or contact number. Untill I implement that you have to <a href="https://github.com/dshaw0004/upalways" target="_blank">Contact me</a> to remove your site from <cite>UpAlways</cite>.</p>
+  </div>
     <script>
         document.getElementById('myForm').addEventListener('submit', (event) => {
             event.preventDefault();
@@ -38,7 +56,9 @@
                 },
                 body: JSON.stringify({ url, serverType })
             }).then(response => response.text())
-              .then(data => alert("your url has been added");
+              .then(data =>{ 
+                console.log(data)
+                alert(data)})
         });
     </script>
 </body>
