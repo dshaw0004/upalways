@@ -35,6 +35,7 @@ async function makeHttpsRequest(){
       return 
     }
     allUrls.map(url =>{
+
       https.get(url, (res) => {
         // console.log(`STATUS: ${res.statusCode}`);
         return;
@@ -67,6 +68,9 @@ app.post('/',async  (req, res) => {
     return 
   }
   let response = ""
+  if(!url.startsWith(http) || !url.startsWith(Http) ){
+    url = `${req.body.serverType}://${url}`
+  }
   if (req.body.serverType == "http" ) {
     response = await repldb.addHttpServer(url)
   } else if (req.body.serverType == "https") {
