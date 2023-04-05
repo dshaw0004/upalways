@@ -23,7 +23,7 @@ async function addHttpsServer(url) {
 	  let setOfUrls = new Set(urls);
 	  let values = setOfUrls.values();
   	await db.set("httpsServers",Array.from(values));
-    addLogs(1, `\nTime :- ${new Date().toISOString()}\n url added to HTTP :- ${url}`)
+    addLogs(1, `\nTime :- ${new Date().toISOString()}\n url added to HTTPS :- ${url}`)
     return "your url is been added"
   }catch(err) {
     addLogs(2, `\nTime :- ${new Date().toISOString()}\n Error at HTTPS :- ${err.message}`)
@@ -32,11 +32,18 @@ async function addHttpsServer(url) {
 }
 async function getHttpsUrl() {
 	const allUrls =await db.get("httpsServers")
+  // console.log(allUrls)
+  
 	return allUrls
 }
 async function getHttpUrl() {
 	const allUrls =await db.get("httpServers")
+  // console.log(allUrls)
 	return allUrls
 }
-
-module.exports = { addHttpServer,addHttpsServer, getHttpUrl,getHttpsUrl};
+async function removeHttpsUrl(url){
+  let urls = await getHttpsUrl()
+    newurls = urls.filter(value => value !== url)
+    await db.set("httpsServers", newurls)
+}
+module.exports = { addHttpServer,addHttpsServer, getHttpUrl,getHttpsUrl, removeHttpsUrl};
