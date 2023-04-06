@@ -11,11 +11,10 @@ const addLogs = require("./addLogs.js")
 async function makeHttpRequest(){
   try{
     const allUrls = await repldb.getHttpUrl() || []
-    if(allUrls.length === 0){
+    // console.log(allUrls.length === 0)
+    if(allUrls.length !== 0){
     // console.log("no urls for http")
-    return
-    }
-    allUrls.map(url => { 
+     allUrls.map(url => { 
       http.get(url, (res) => {
         // console.log(`STATUS: ${res.statusCode}`);
         return ;
@@ -23,6 +22,8 @@ async function makeHttpRequest(){
         console.error(`ERROR: ${e.message}`);
       });
     })
+    }
+   
   }catch(err){
     addLogs(2, `\nTime :- ${new Date().toISOString()}\n Error at makeHttpRequest :- ${err.message}`)
   }
@@ -30,11 +31,9 @@ async function makeHttpRequest(){
 async function makeHttpsRequest(){
   try{
     const allUrls = await repldb.getHttpsUrl() || []
-    if(allUrls.length === 0){
+    if(allUrls.length !== 0){
        // console.log("no urls for https")
-      return 
-    }
-    allUrls.map(url =>{
+      allUrls.map(url =>{
 
       https.get(url, (res) => {
         // console.log(`STATUS: ${res.statusCode}`);
@@ -43,6 +42,8 @@ async function makeHttpsRequest(){
         console.error(`ERROR: ${e.message}`);
       });
     })
+    }
+    
   }catch(err){
     addLogs(2, `\nTime :- ${new Date().toISOString()}\n Error at makeHttpsRequest :- ${err.message}`) 
   }
@@ -50,7 +51,7 @@ async function makeHttpsRequest(){
 
 cron.schedule('*/1 * * * *',()=>{
   makeHttpsRequest();
-  makeHttpRequest()
+  makeHttpRequest();
 })
 
 
@@ -64,11 +65,13 @@ app.get('/', (req, res) => {
 app.post('/',async  (req, res) => {
   let url = req.body.url || ""
   if(url.length === 0){
+    res.set('mode', 'cors');
+    res.header('Access-Control-Allow-Origin','*')
     res.send("add a url to proceed")
     return 
   }
   let response = ""
-  if(!url.startsWith(http) || !url.startsWith(Http) ){
+  if(!url.startsWith(req.body.serverType) ){
     url = `${req.body.serverType}://${url}`
   }
   if (req.body.serverType == "http" ) {
@@ -78,6 +81,8 @@ app.post('/',async  (req, res) => {
   } else {
     console.log(req.body);
   }
+    res.set('mode', 'cors');
+  res.header('Access-Control-Allow-Origin','*')
     res.send(response);
 });
 

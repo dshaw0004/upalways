@@ -16,7 +16,5 @@ function logToFile(caseNumber, message) {
   });
 }
 
-// // Example usage:
-// logToFile(1, 'This is a log message for case 1');
-// logToFile(2, 'This is a log message for case 2');
+
 module.exports = logToFile
